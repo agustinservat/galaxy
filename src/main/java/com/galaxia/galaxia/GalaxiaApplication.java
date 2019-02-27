@@ -1,8 +1,7 @@
 package com.galaxia.galaxia;
 
-import com.galaxia.galaxia.models.Planeta;
+import com.galaxia.galaxia.models.Planet;
 import com.galaxia.galaxia.models.Point;
-import javafx.application.Application;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -20,11 +19,11 @@ public class GalaxiaApplication extends SpringBootServletInitializer {
 
 		SpringApplication.run(GalaxiaApplication.class, args);
 
-		Planeta Ferengi = new Planeta("Ferengi", 500, 1, true);
-		Planeta Vulcano = new Planeta("Vulcano", 1000, 5, false);
+		Planet Ferengi = new Planet("Ferengi", 500, 1, true);
+		Planet Vulcano = new Planet("Vulcano", 1000, 5, false);
 
-		Point PositionFerengi = Ferengi.getPoint(5);
-		Point PositionVulcano = Vulcano.getPoint(5);
+		Point PositionFerengi = Ferengi.getPoint(365);
+		Point PositionVulcano = Vulcano.getPoint(365);
 
 		System.out.println("punto x es: " + PositionFerengi.getX() + " punto y es: " + PositionFerengi.getY());
 		System.out.println("punto x es: " + PositionVulcano.getX() + " punto y es: " + PositionVulcano.getY());

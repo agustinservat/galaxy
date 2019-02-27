@@ -2,14 +2,14 @@ package com.galaxia.galaxia.models;
 
 import static java.lang.Math.*;
 
-public class Planeta {
+public class Planet {
 
     private String name;
     private Integer distance;
     private Integer degreesPerDay;
     private boolean clockwise;
 
-    public Planeta(String name, Integer distance, Integer degreesPerDay, boolean clockwise) {
+    public Planet(String name, Integer distance, Integer degreesPerDay, boolean clockwise) {
         this.name = name;
         this.distance = distance;
         this.degreesPerDay = degreesPerDay;
