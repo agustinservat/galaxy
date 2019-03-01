@@ -51,32 +51,24 @@ public class GalaxiaApplication extends SpringBootServletInitializer {
 //		System.out.println("Es linea o no: " + solarSystem.isLine(p1, p2, p3));
 
 
-		LocalDate start = LocalDate.of(2015, 9, 1);
-		LocalDate end = LocalDate.of(2025, 9, 4);
+		LocalDate start = LocalDate.of(2018, 2, 28);
+		LocalDate end = LocalDate.of(2028, 2, 28);
 		LocalDate currentStart=LocalDate.from(start);
 		LocalDate currentEnd=LocalDate.from(end.plusDays(1));//end is inclusive
 		Integer count = 0;
         HashMap<String, Integer> program = new HashMap<String, Integer>();
-
         do{
-			// do what you want with currentStart
-			//....
 			count += 1;
 			String result = solarSystem.getWeather(count);
 
             int repeat = program.containsKey(result) ? program.get(result) : 0;
             program.put(result, repeat + 1);
 
-//			System.out.println("Imprimio: " + count);
-//			System.out.println("El clima esta: " + solarSystem.getWeather(count));
-//			System.out.println("El perimetro es: " + SolarSystem.getPerimeter());
-//			System.out.println("-------------------------------------- ");
 			currentStart=currentStart.plusDays(1);
 		}while (!currentStart.equals(currentEnd));
 
 
         program.forEach((k,v) -> System.out.println("Key: " + k + ": Value: " + v));
-
 
         System.out.println("El perimetro es: " + SolarSystem.getPerimeter());
 	}
