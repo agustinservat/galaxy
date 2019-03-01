@@ -1,13 +1,17 @@
 package com.galaxia.galaxia.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SolarSystem {
 
     private List<Planet> planets;
+    private Point sunPosition;
+    private static double perimeter = 0;
 
     public SolarSystem(List<Planet> planets) {
-        planets = planets;
+        this.planets = planets;
+        this.sunPosition = new Point(0,0);
     }
 
     public List<Planet> getPlanets() {
@@ -18,12 +22,33 @@ public class SolarSystem {
         planets = planets;
     }
 
-    public String getWeather(Integer days) {
-        for(int i=0; i<planets.size(); i++){
+    public Point getSunPosition() {
+        return sunPosition;
+    }
 
+    public static double getPerimeter() {
+        return perimeter;
+    }
+
+    public String getWeather(Integer days) {
+        List<Point> points = new ArrayList<Point>();
+        for(int i=0; i<planets.size(); i++){
+            points.add(planets.get(i).getPoint(days));
         }
-        String llueve = "Llueve";
-        return llueve;
+        String result = "Normal";
+        if(isLine(points.get(0), points.get(1), points.get(2)) && checkOrigin(points.get(0), points.get(1))){
+            result = "Sequia";
+        } else if(isLine(points.get(0), points.get(1), points.get(2))){
+            result = "Presion y temperatura";
+        } else if(pointInTriangle(sunPosition, points.get(0), points.get(1), points.get(2))){
+            result = "Lluvia";
+            if(perimeter < getPerimeterTriangle(points.get(0), points.get(1), points.get(2))){
+                perimeter = getPerimeterTriangle(points.get(0), points.get(1), points.get(2));
+//                System.out.println("El perimetro es: " + perimeter + "El dia es: " + days);
+            }
+        }
+
+        return result;
     }
 
     public double sign (Point p1, Point p2, Point p3) {
@@ -44,7 +69,7 @@ public class SolarSystem {
         return !(has_neg && has_pos);
     }
 
-    public double perimeterTriangle(Point p1, Point p2, Point p3) {
+    public double getPerimeterTriangle(Point p1, Point p2, Point p3) {
         return p1.distanceTo(p2) + p1.distanceTo(p3) + p2.distanceTo(p3);
     }
 
