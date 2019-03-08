@@ -1,13 +1,11 @@
 package com.galaxia.galaxia;
 
 import com.galaxia.galaxia.models.Planet;
-import com.galaxia.galaxia.models.Point;
 import com.galaxia.galaxia.models.SolarSystem;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
