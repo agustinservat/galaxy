@@ -49,7 +49,7 @@ public class Planet {
     }
 
     //Con coordenadas polares calculo la posicion del planeta
-    public Point getPoint(Integer days){
+    public Point getPoint(double days){
         //Calculo los grados con modulo 360 para quitar las vueltas y quedarme con los grados entre 0 y 360
         double degrees = (this.degreesPerDay * days) % 360;
 

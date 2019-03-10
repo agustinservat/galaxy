@@ -5,12 +5,17 @@ import java.util.List;
 
 public class SolarSystem {
 
-    private List<Planet> planets;
+    private List<Planet> planets = new ArrayList<Planet>();
     private Point sunPosition;
     private static double perimeter = 0;
 
-    public SolarSystem(List<Planet> planets) {
-        this.planets = planets;
+    public SolarSystem() {
+        Planet Ferengi = new Planet("Ferengi", 500, 1, true);
+        Planet Betasoide = new Planet("Betasoide", 2000, 3, true);
+        Planet Vulcano = new Planet("Vulcano", 1000, 5, false);
+        this.planets.add(Ferengi);
+        this.planets.add(Betasoide);
+        this.planets.add(Vulcano);
         this.sunPosition = new Point(0,0);
     }
 
@@ -30,7 +35,7 @@ public class SolarSystem {
         return perimeter;
     }
 
-    public String getWeather(Integer days) {
+    public Weather getWeather(Integer days) {
         List<Point> points = new ArrayList<Point>();
         for(int i=0; i<planets.size(); i++){
             points.add(planets.get(i).getPoint(days));
@@ -39,24 +44,24 @@ public class SolarSystem {
         String result = "Normal";
         if(isLine(points.get(0), points.get(1), points.get(2)) && checkOrigin(points.get(0), points.get(1))){
             result = "Sequia";
+//            System.out.println(areaTriangle(points.get(0), points.get(1), points.get(2)));
         } else if(isLine(points.get(0), points.get(1), points.get(2))){
             result = "Presion y temperatura";
         } else if(pointInTriangle(sunPosition, points.get(0), points.get(1), points.get(2))){
             result = "Lluvia";
             if(perimeter < getPerimeterTriangle(points.get(0), points.get(1), points.get(2))){
-                //TODO devolver el dia del perimetro maximo
-                perimeter = getPerimeterTriangle(points.get(0), points.get(1), points.get(2));
+                perimeter = days;
             }
         }
 
-        return result;
+        return new Weather(days,result);
     }
 
-    public double sign (Point p1, Point p2, Point p3) {
+    public static double sign (Point p1, Point p2, Point p3) {
         return (p1.getX() - p3.getX()) * (p2.getY() - p3.getY()) - (p2.getX() - p3.getX()) * (p1.getY() - p3.getY());
     }
 
-    public boolean pointInTriangle (Point pt, Point v1, Point v2, Point v3){
+    public static boolean pointInTriangle (Point pt, Point v1, Point v2, Point v3){
         double d1, d2, d3;
         boolean has_neg, has_pos;
 
@@ -70,15 +75,20 @@ public class SolarSystem {
         return !(has_neg && has_pos);
     }
 
-    public double getPerimeterTriangle(Point p1, Point p2, Point p3) {
+    public static double getPerimeterTriangle(Point p1, Point p2, Point p3) {
         return p1.distanceTo(p2) + p1.distanceTo(p3) + p2.distanceTo(p3);
     }
 
-    public boolean isLine(Point p1, Point p2, Point p3) {
+    public static boolean isLine(Point p1, Point p2, Point p3) {
         return (p3.getY() - p1.getY()) * (p2.getX() - p1.getX()) == (p3.getX() - p1.getX()) * (p2.getY() - p1.getY());
     }
 
-    public boolean checkOrigin(Point p1, Point p2) {
+    public static boolean checkOrigin(Point p1, Point p2) {
         return (p1.getX() * (p2.getY() - p1.getY()) == p1.getY() * (p2.getX() - p1.getX()));
+    }
+
+    public static double areaTriangle(Point A, Point B, Point C) {
+        double area = (A.getX() * (B.getY() - C.getY()) + B.getX() * (C.getY() - A.getY()) + C.getX() * (A.getY() - B.getY())) / 2;
+        return Math.abs(area);
     }
 }
