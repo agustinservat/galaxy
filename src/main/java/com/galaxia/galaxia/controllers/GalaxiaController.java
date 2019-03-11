@@ -1,6 +1,5 @@
 package com.galaxia.galaxia.controllers;
 
-import com.galaxia.galaxia.models.SolarSystem;
 import com.galaxia.galaxia.models.Weather;
 import com.galaxia.galaxia.repositories.GalaxyRepository;
 import com.galaxia.galaxia.services.GalaxyService;
@@ -12,9 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,17 +24,26 @@ public class GalaxiaController {
     @Autowired
     GalaxyService galaxyService;
 
-    @RequestMapping(value = "/weather", method = RequestMethod.GET)
-    public List<Weather> findAll(){
-        return galaxyRepository.findAll();
+    @RequestMapping(value = "/all-weather", method = RequestMethod.GET)
+    public ResponseEntity<List<Weather>> findAll(){
+        List<Weather> weatherList = galaxyRepository.findAll();
+        if(weatherList.isEmpty()){
+            return new ResponseEntity<List<Weather>>(weatherList, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Weather>>(weatherList, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/clima", method = RequestMethod.GET)
-    public Weather search(@RequestParam Integer day){
-        return galaxyService.getWeatherByDay(day);
+    public ResponseEntity<Weather> search(@RequestParam Integer dia){
+        Weather weather = galaxyService.getWeatherByDay(dia);
+        if(weather != null){
+            return new ResponseEntity<Weather>(weather, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<Weather>(weather, HttpStatus.NOT_FOUND);
+        }
     }
 
-    @RequestMapping(value = "/climaHasta", method = RequestMethod.GET)
+    @RequestMapping(value = "/clima-hasta", method = RequestMethod.GET)
     public ResponseEntity<?>  getWeatherBetweenDates(@RequestParam("to") @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate toDate){
         LocalDate now = LocalDate.now();
         if(now.isAfter(toDate)){
@@ -46,7 +51,13 @@ public class GalaxiaController {
                     .contentType(MediaType.TEXT_PLAIN)
                     .body("La fecha ingresada debe ser superior al dia de hoy.");
         }
-        HashMap<String, Integer> result = galaxyService.getWeatherBetweenDates(now, toDate);
-        return ResponseEntity.ok(result);
+        try{
+            HashMap<String, Integer> result = galaxyService.getWeatherBetweenDates(now, toDate);
+            return ResponseEntity.ok(result);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .body(e.getMessage());
+        }
     }
 }

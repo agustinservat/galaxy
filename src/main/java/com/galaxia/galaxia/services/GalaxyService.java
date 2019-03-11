@@ -1,15 +1,12 @@
 package com.galaxia.galaxia.services;
 
-import com.galaxia.galaxia.models.Planet;
 import com.galaxia.galaxia.models.SolarSystem;
 import com.galaxia.galaxia.models.Weather;
 import com.galaxia.galaxia.repositories.GalaxyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,8 +36,6 @@ public class GalaxyService {
         return galaxyRepository.findAll();
     }
 
-
-    //TODO retornar el dia del perimetro maximo
     public HashMap<String, Integer> getWeatherBetweenDates(LocalDate start, LocalDate end){
         LocalDate currentStart=LocalDate.from(start);
         LocalDate currentEnd=LocalDate.from(end.plusDays(1));//end is inclusive
@@ -55,6 +50,8 @@ public class GalaxyService {
 
             currentStart=currentStart.plusDays(1);
         }while (!currentStart.equals(currentEnd));
+
+        program.put("Último pico máximo de lluvia se dio en el día", SolarSystem.getPerimeter());
 
         return program;
     }

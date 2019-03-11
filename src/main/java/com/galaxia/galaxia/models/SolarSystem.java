@@ -7,7 +7,7 @@ public class SolarSystem {
 
     private List<Planet> planets = new ArrayList<Planet>();
     private Point sunPosition;
-    private static double perimeter = 0;
+    private static Integer perimeter = 0;
 
     public SolarSystem() {
         Planet Ferengi = new Planet("Ferengi", 500, 1, true);
@@ -31,7 +31,7 @@ public class SolarSystem {
         return sunPosition;
     }
 
-    public static double getPerimeter() {
+    public static Integer getPerimeter() {
         return perimeter;
     }
 
@@ -44,7 +44,6 @@ public class SolarSystem {
         String result = "Normal";
         if(isLine(points.get(0), points.get(1), points.get(2)) && checkOrigin(points.get(0), points.get(1))){
             result = "Sequia";
-//            System.out.println(areaTriangle(points.get(0), points.get(1), points.get(2)));
         } else if(isLine(points.get(0), points.get(1), points.get(2))){
             result = "Presion y temperatura";
         } else if(pointInTriangle(sunPosition, points.get(0), points.get(1), points.get(2))){
