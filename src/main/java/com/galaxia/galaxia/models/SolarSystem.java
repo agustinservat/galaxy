@@ -40,7 +40,6 @@ public class SolarSystem {
         for(int i=0; i<planets.size(); i++){
             points.add(planets.get(i).getPoint(days));
         }
-        //TODO nunca tiene presion, deberia crearse todos los posibles climas y devolverlos
         String result = "Normal";
         if(isLine(points.get(0), points.get(1), points.get(2)) && checkOrigin(points.get(0), points.get(1))){
             result = "Sequia";
