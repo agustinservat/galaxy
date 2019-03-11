@@ -23,3 +23,8 @@
 /nbdist/
 /.nb-gradle/
 /build/
+
+/src/main/resources/application.properties
+/src/main/resources/galaxy-72ae7df580c3.json
+
+
